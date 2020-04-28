@@ -1,0 +1,132 @@
+{% extends 'AdminBase.html' %}
+{% load static %}
+{#{% block title %}管理员界面{% endblock %}#}
+{% block content %}
+
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+{#        <link rel="stylesheet" href="{% static 'css/AdminMenu.css' %}">#}
+        <script src="{% static 'popper/popper.js' %}">    </script>
+        <script src="{% static 'jquery/jquery-3.4.1.js' %}">    </script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}">    </script>
+
+<style>
+   a #lgl_meishi_{{ id }}{
+        background-color: #28a745;
+        color: red;
+       font-size: 30px;
+       margin-bottom: 30px;
+    }
+</style>
+
+<div class="container-fluid">
+
+
+
+<a href="/AdminMeishi/1">
+   <button class="btn btn-success" id="lgl_meishi_1" type="button" style="margin-top: -2px;background-color: #009f95" >海南特色</button>
+</a>
+<a href="/AdminMeishi/2">
+     <button class="btn btn-success" id="lgl_meishi_2" type="button" style="margin-top: -2px; background-color: violet">海南特产</button>
+</a>
+<a href="/AdminMeishi/3">
+  <button class="btn btn-success" id="lgl_meishi_3" type="button" style="margin-top: -2px; background-color: black;">海南小吃</button>
+</a>
+<a href="/AdminMeishi/4">
+    <button class="btn btn-success" id="lgl_meishi_4" type="button" style="margin-top: -2px; background-color: #b3d7ff">海南招牌小吃</button>
+
+</a>
+  {% if request.session.is_Adminlogin %}
+  <form class="form-inline" action="/Tourism_soso/1" method="post" style="float:right;margin-bottom: 10px;margin-left: 20px">
+       {% csrf_token %}
+
+    <input class="form-control" type="text" placeholder="请输入旅游景点名字" name="Tourism_soso">
+    <button class="btn btn-success" type="submit" style="margin-top: -2px;">搜索</button>
+  </form>
+    <button type="button" class="btn btn-warning ml-auto" onclick="window.location.href = '{% url "password_reset_recover" %}'" style="float:right;margin-bottom: 10px;">新增海南小吃</button>
+      <table class="table table-dark table-hover" >
+    <thead>
+      <tr style="text-align: center; background-color: #1c7430">
+          <th>序号</th>
+            <th>名字</th>
+        <th>图片</th>
+          <th>简单介绍</th>
+          <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+{% for foo in meishi_page %}
+      <tr style="text-align: center">
+      <td>{{ foo.id }}</td>
+        <td>{{ foo.name }}</td>
+        <td>{{ foo.jpg }}</td>
+        <td>{{ foo.category }}</td>
+
+          <td>
+                      <button type="button" id="btn" class="btn btn-danger" onclick="if(confirm('确定要删除吗？') ==false) return false;location.href='/Tourism_del/{{ foo.id }}?page={{ meishi_page.number }}'"   >删除</button>
+                      <button type="button" class="btn btn-primary" onclick="window.location.href = '/Tourism_update/{{ foo.id }}'">修改</button>
+
+
+
+
+          </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+      <ul class="pagination justify-content-center fixed-bottom"  style="margin-bottom: 100px;" id="page" >
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+    {% if meishi_page.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page=">首页</a></li>
+        {%  if meishi_page.number == 2  %}
+                <li class="page-item"><a class="page-link" href="./{{ id }}?page={{ qian }}">{{ qian }}</a></li>
+        {% else %}
+
+                   <li class="page-item"><a class="page-link" href="./{{ id }}?page={{ qian2 }}">{{ qian2 }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{ id }}?page={{meishi_page.number}}">{{meishi_page.number}}</a></li>
+
+
+        {% if meishi_page.has_next %}
+            {% if meishi_page.number == hou %}
+
+   {% else %}
+   <li class="page-item"><a class="page-link" href="./{{ id }}?page={{hou}}">{{ hou }}</a></li>
+                         {% endif %}
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{meishi_page.paginator.num_pages  }}">尾页</a></li>
+
+        {% endif %}
+
+                               <li class="page-item"><a class="page-link">共{{ meishi_page.paginator.num_pages }}页</a></li>
+
+  </ul>
+      <p style="margin-top: 100px;"></p>
+
+
+{% endif %}
+    <script>
+
+document.getElementById('btn').onclick = function () {
+if (confirm('您确认要删除吗？')) {
+alert('删除成功！');
+} else {
+alert('取消删除！');
+}
+};
+
+		</script>
+
+
+</div>
+
+
+{% endblock %}

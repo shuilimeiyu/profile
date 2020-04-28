@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    {#button{#}
+    {#    margin-top: 20px;#}
+    {#    margin-bottom: 20px;#}
+    {##}
+    {#}#}
+    button[type="button"]:hover{
+        background-color: #FFFFFF60;
+        color: black;
+    }
+
+.lgl_tp{
+    text-align: center; width: auto;margin-top:20px;
+
+}
+.img-thumbnail{
+    margin-top: 20px; width: 200px;height: 200px;
+}
+.form-group [id="lgl_shuru"]{
+    width: 300px;
+    text-align: center;
+
+}
+textarea{
+
+      background-color: #062c33; color: #f8f8f280;text-indent: 2em;width: 200px;height: 200px;
+}
+td [id="yue"]{
+    background-color: #28a745;
+}
+</style>
+     {% if user.is_authenticated %}
+
+<div class="container" style="background-color: #ffffff; margin-bottom: 90px;">
+
+
+{#<p style="text-align: center;color: #009f95;font-size: 30px; border-bottom:1px solid  green">个人名片</p>#}
+
+<div style="float: right">
+     <a  href="/edit/" style="text-decoration:none">
+    <span class="glyphicon glyphicon-edit"></span>
+   编辑</a>
+</div><br>
+<p  class="lgl_tp" style="margin-top: 10px;">
+
+
+ <img src="/{{ User_edit.iocn }}" class="img-thumbnail" alt="Cinque Terre" >
+    <br>
+    {% if sex_pd == 1 %}
+    <button type="button" id="lgl_bt" class="btn btn-success" >{{User_edit.sex}}</button>
+    <button type="button" id="lgl_bt"  class="btn btn-danger" >{{ User_edit.user_id.first_name }}{{ User_edit.user_id.last_name }}</button>
+        {% elif sex_pd == 2  %}
+            <button type="button" id="lgl_bt"  class="btn btn-info" >{{User_edit.sex}}</button>
+    <button type="button" class="btn btn-danger" >{{ User_edit.user_id.first_name }}{{ User_edit.user_id.last_name }}</button>
+        {% else %}
+            <button type="button" class="btn btn-warning" >性别{{User_edit.sex}}</button>
+    <button type="button" class="btn btn-danger" >{{ User_edit.user_id.first_name }}{{ User_edit.user_id.last_name }}</button>
+    {% endif %}
+<div style="background-color: #2D93CA50;">
+
+    <p style="text-align: center;font-size: 18px;padding-top: 10px;"><span class="glyphicon glyphicon-pencil"></span> 个性签名</p>
+        <p class="text-left" style="
+        color: green;
+                height: 75px;
+                text-indent: 2em;
+                word-break:break-all;
+                display:-webkit-box;
+                -webkit-line-clamp:3;
+                -webkit-box-orient:vertical;
+                overflow:hidden;
+                width: 1100px;
+                margin-left: 5px;
+                background-color: #ffffff;">{{ User_edit.autograph }}
+        </p>
+           <p style="height: 0.1px;"></p>
+
+</div>
+
+
+                  <div style="background-color: #bd213050;margin-top: 20px;text-align: center;">
+                   <p style="text-align: center;font-size: 18px;padding-top: 10px;"> <span class="glyphicon glyphicon-user"></span> 个人信息</p>
+                      <div style="background-color: #ffffff;width: 1100px;margin-left: 5px;">
+                             <p><span class="glyphicon glyphicon-phone"></span><small style="font-size: 20px;"> {{ User_edit.phone }}</small></p>
+                             <p><span class="glyphicon glyphicon-home"></span><small style="font-size: 20px;">  {{ User_edit.city }}</small></p>
+                    </div>
+                  <p style="height: 0.1px;"></p>
+                 </div>
+
+
+                           <div style="background-color: #66d9ef;margin-top: 20px;text-align: center;">
+                   <p style="text-align: center;font-size: 18px;padding-top: 10px;"> <span class="glyphicon glyphicon-list-alt"></span> 文章信息</p>
+                      <div style="background-color: #ffffff;width: 1100px;margin-left: 5px;">
+                             <p><span class="glyphicon glyphicon-text-width"></span><small style="font-size: 20px;"> <a href="/Article_List/{{ User_edit.id }}">{{ ArticlePost_page.count }}</a></small> 篇文章</p>
+                             <p><span class="glyphicon glyphicon-comment"></span><small style="font-size: 20px;">  {{ Comment_page.count }}</small> 条评论</p>
+                    </div>
+                  <p style="height: 0.1px;"></p>
+                 </div>
+
+
+                      <div style="background-color: #2D93CA;margin-top: 20px;text-align: center;">
+                   <p style="text-align: center;font-size: 18px;padding-top: 10px;"> <span class="glyphicon glyphicon-shopping-cart"></span> 购买信息</p>
+                      <div style="background-color: #ffffff;width: 1100px;margin-left: 5px;">
+                     <table class="table  table-hover text-center" style="">
+    <thead>
+      <tr style="background-color: #28a74550">
+
+        <th>订单号</th>
+        <th>景点名字</th>
+          <th>价格</th>
+
+      </tr>
+    </thead>
+    <tbody>
+     {% endif %}
+    {% for foo in Tourism_status_dingdan %}
+
+
+
+      <tr>
+
+        <td>{{foo.order_number}}</td>
+        <td>{{ foo.Tourism.Tourism_name }}</td>
+      <td>{{ foo.Tourism.Tourism_Price }} 元</td>
+
+        {% endfor %}
+
+     </tr>
+
+
+
+
+    </tbody>
+{#                {% if yue == 0 %}#}
+{#                 <p style="font-size: 18px;color: green;float:right;margin-top: 20px; ">你剩下的余额为：{{ yue }}元 <a href="/AddMoney/">充值</a></p>#}
+{#                    {% else %}#}
+{#                     <p style="font-size: 18px;color: green;float:right;margin-top: 20px; ">你剩下的余额为：{{ yue }}元 <a href="/AddMoney/">充值</a></p>#}
+{#                    {% endif %}#}
+  </table>
+                    </div>
+                  <p style="height: 0.1px;"></p>
+                 </div>
+
+
+         <label style="margin-bottom: 60px;"></label>
+
+
+</div>
+ {% if Tourism_status_dingdan %}
+
+
+
+{% else %}
+         <p>你还没有登录</p>
+{% endif %}
+
+
+
+
+
+
+{# <img src="/{{ User_edit.iocn }}" class="img-thumbnail" alt="Cinque Terre" style="background-color: #28a74560;width: 400px;height: 400px;" >#}
+{#</div>#}
+
+
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}推文帮{% endblock %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+
+{#<body>#}
+<div class="container" style="background-color: #ffffff">
+
+<ol class="breadcrumb" style="margin-top: 20px;margin-bottom: 20px;background-color: #ffffff;">
+
+  <li class="breadcrumb-item"><a href="/index">推文帮</a></li>
+  <li class="breadcrumb-item active">{{ cite }}</li>
+     <li class="active ml-auto" style="color: #1c7430;font-size: 18px;">气温:<strong>{{ temp }}</strong></li>
+
+</ol>
+</div>
+<div class="container" style="background-color: #ffffff">
+
+
+    <h5 class="lgl_H5">{{ cite }}地理位置：</h5>
+    <p style="margin-top: 20px; text-indent: 2em;">{{ region1.Region_introduce }}</p>
+
+
+{#         图片#}
+		<div class="row" style="color:red; margin-left: 20px; margin-top: 20px;">
+            {% for foo in articles %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.image }}">
+					<div class="box-content">
+						<h3 class="title"><a href="/detailed/{{ foo.id }}">{{ foo.Tourism_name }}</a></h3>
+						<span class="post">价格：{{ foo.Tourism_Price }}</span>
+                        <span class="post">点击量：{{ foo.total_views }}</span>
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+		</div>
+</div>
+
+{#图片 end#}
+<div class="container" style="background-color: #ffffff;margin-bottom: 100px;">
+{% if message %}
+<div class="alert alert-warning">
+{{ message }}
+</div>
+    {% else %}
+     <ul class="pagination justify-content-center"  style="margin-top: 20px;" id="page" >
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+{#     <li class="page-item"><a class="page-link" >共{{ articles.paginator.num }}首页</a></li>#}
+    {% if articles.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="  ?page=1">首页</a></li>
+        {%  if articles.number == 2  %}
+                <li class="page-item"><a class="page-link" href="  ?page={{ qian }}">{{ qian }}</a></li>
+        {% else %}
+
+                   <li class="page-item"><a class="page-link" href="  ?page={{ qian2 }}">{{ qian2 }}</a></li>
+        <li class="page-item"><a class="page-link" href="  ?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="  ?page={{articles.number}}">{{articles.number}}</a></li>
+
+
+        {% if articles.has_next %}
+            {% if articles.number == hou %}
+
+   {% else %}
+   <li class="page-item"><a class="page-link" href="  ?page={{hou}}">{{ hou }}</a></li>
+                         {% endif %}
+        <li class="page-item"><a class="page-link" href="?page={{articles.paginator.num_pages  }}">尾页</a></li>
+
+
+                    {% endif %}
+
+   <li class="page-item"><a class="page-link">共{{ articles.paginator.num_pages }}页</a></li>
+
+  </ul>
+{#        <div class="pagination justify-content-center" style="width:auto;height:10px;margin-bottom: 10px">#}
+{#    <div class="m-auto" >#}
+{#        <span class="step-links">#}
+{#            <!-- 如果不是第一页，则显示上翻按钮 -->#}
+{#            {% if articles.has_previous %}#}
+{#                <a href="?page=1" class="btn btn-success">#}
+{#                    上一页#}
+{#                </a>#}
+{##}
+{#                <a href="?page={{ articles.previous_page_number }}"#}
+{#                   class="btn btn-secondary"#}
+{#                >#}
+{#                    {{ articles.previous_page_number }}#}
+{#                </a>#}
+{#            {% endif %}#}
+{##}
+{#            <!-- 当前页面 -->#}
+{#            <span class="current btn btn-danger btn-lg">#}
+{#                {{ articles.number }}#}
+{#            </span>#}
+{##}
+{#            <!-- 如果不是最末页，则显示下翻按钮 -->#}
+{#            {% if articles.has_next %}#}
+{#                <a href="?page={{ articles.next_page_number }}"#}
+{#                   class="btn btn-secondary"#}
+{#                >#}
+{#                    {{ articles.next_page_number }}#}
+{#                </a>#}
+{##}
+{#                <a href="?page={{ articles.paginator.num_pages }}"#}
+{#                   class="btn btn-success"#}
+{#                >#}
+{#                    下一页#}
+{#                </a>#}
+{#            {% endif %}#}
+{#        </span>#}
+{#    </div>#}
+{#</div>#}
+
+    </div>
+{% endif %}
+
+</body>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}推文帮{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <div class="container">
+{% if message %}
+
+      <div class="alert alert-success alert-dismissible fade show" style="margin-top:12px;background-color: #343a40;color: #FFFFFF">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+   关键词 <strong>{{ search }}</strong> 搜索，共有
+    <strong>{{ page_1 }}</strong>  条
+  </div>
+        <div class="row" style="color:red; margin-top: 20px;">
+            {% for foo in results %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.image }}">
+					<div class="box-content">
+						<h3 class="title"><a href="/detailed/{{ foo.id }}">{{ foo.Tourism_name }}</a></h3>
+						<span class="post">价格：{{ foo.Tourism_Price }}</span>
+                        <span class="post">点击量：{{ foo.total_views }}</span>
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+
+
+		</div>
+
+    {% else %}
+            <div class="alert alert-warning" style="margin-bottom: 20px;margin-top: 20px;text-align: center;">
+    <strong>没有找到任何的东西！</strong>
+  </div>
+
+{% endif %}
+
+
+
+</div>
+{% endblock %}

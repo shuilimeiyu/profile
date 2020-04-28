@@ -1,0 +1,109 @@
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "base.html" %}
+{% load static %}
+
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    文章详情
+{% endblock title %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+    <style rel="stylesheet" >
+    .caozuo a {
+        background-color: darkgray;
+        color: black;
+        font-size: 14px;
+        text-align: center;
+    }
+    .caozuo a:hover{
+
+        color: red;
+
+    }
+
+    </style>
+
+<!-- 文章详情 -->
+<div class="container">
+
+    <div class="row" style="margin-bottom: 150px;">
+        <!-- 标题及作者 -->
+        <h3 class="col-12 mt-4 mb-4" style='height:auto;color: #DED38C; text-align: center;'>{{ article.title }}</h3>
+        <div class="col-12 mt-4 mb-4" style="text-align: center;color:#DED38C;" >
+                        作者：{{ article.author }}
+
+
+       </div>
+        <div class="caozuo">
+            <a href="/article-delete/{{ article.id }}" >删除</a>
+            <a   href="/article-update/{{ article.id  }}">编辑</a>
+        </div>
+
+
+
+
+
+        <!-- 文章正文 -->
+        <div class="col-12" style="height: 600px; margin-top: 20px;background-color: #89BEB2">
+          <p>{{ article.boby|safe }}</p>
+        </div>
+    </div>
+
+
+    {% if request.user.id %}
+  <div >
+            <form
+{#                action="{% url 'comment:post_comment' article.id %}"#}
+                action="/post-comment/{{ article.id }}/"
+                method="POST"
+            >
+            {% csrf_token %}
+                <div class="form-group">
+                    <label for="body">
+                        <strong>
+                            我也要发言：
+                        </strong>
+                    </label>
+
+                            <div style="color: #1b6d85;">
+            {{ comment_form.media }}
+            {{ comment_form.body }}
+        </div>
+                </div>
+                <!-- 提交按钮 -->
+                <button type="submit" class="btn btn-primary ">发送</button>
+            </form>
+        </div>
+        <br>
+        {% else %}
+        <br>
+        <h5 class="row justify-content-center">
+            请<a href="/login/">登录</a>后回复
+        </h5>
+        <br>
+    {% endif %}
+        <h4 style="color:#009f95;width: auto;height: 80px;margin-top:20px;text-align: center;">共有{{ comments.count }}条评论</h4>
+    <div>
+        <small>{% for comment in comments %}</small>
+            <hr>
+            <p>
+                <strong style="color: pink">
+                    {{ comment.user }}
+                </strong> 于
+                <span style="color: green">
+                    {{ comment.created|date:"Y-m-d H:i:s" }}
+                </span> 时说：
+            </p>
+            <pre style="font-family: inherit; font-size: 1em;">
+{{ comment.body|safe }}</pre>
+        {% endfor %}
+    </div>
+</div>
+
+
+    <script>
+    $(".django-ckeditor-widget").removeAttr('style');
+</script>
+
+{% endblock content %}

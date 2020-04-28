@@ -1,0 +1,18 @@
+.nav-link{
+
+/*margin-right: 90px;*/
+
+}
+.dropdown-item{
+    color: black;
+    text-align: center;
+}
+.dropdown-item:hover{
+    color: red;
+}
+.dropdown-menu{
+    background-color:#343A40;
+    margin-top: 13px;
+    color: black;
+
+}

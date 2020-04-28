@@ -1,0 +1,91 @@
+{% load static %}
+<style>
+    #soso{
+        margin: auto;
+    }
+
+
+</style>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+{#<div class="container" >#}
+<nav class="navbar navbar-expand-sm  navbar-dark container" style="background-color: #ffffff;margin-top:30px; margin-bottom: 90px;">
+  <div class="container-fluid">
+
+    <!-- 导航栏商标 -->
+    <a class="navbar-brand" href="/index" style="color: yellowgreen;font-size: 20px;">推文帮</a>
+    <!-- 导航入口 -->
+
+  <form class="form-inline" action="/search_Scenic/" method="post">
+       {% csrf_token %}
+    <input class="form-control" type="text" id="soso" placeholder="请输入旅游景点名字" name="search_Scenic_car">
+    <button class="btn btn-success" id="q1q1" type="submit" style="margin-top: -2px;margin-left: 10px; ">搜索</button>
+  </form>
+
+
+      <link rel="stylesheet" href="{% static 'css/header.css' %}">
+
+      <ul class="navbar-nav" >
+        <!-- 条目 -->
+
+           {% if user.is_authenticated %}
+
+        <!-- 如果用户已经登录，则显示用户名下拉框 -->
+
+        <li class="nav-item dropdown" >
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">
+<label style="color: black">
+  <span class="glyphicon glyphicon-user"></span> {{ user.first_name }}{{ user.last_name }}
+</label>
+                </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-left: -35px;margin-top: 7px;background-color: #ffffff;" >
+
+
+
+                 <label>
+                            <a class="dropdown-item"  href="/gerenziliao/"><span class="glyphicon glyphicon-credit-card"></span> 个人信息</a>
+         </label>
+                <label>
+
+                <a class="dropdown-item"  href="/logout/"><span class=" glyphicon glyphicon-log-out"></span> 退出登录</a>
+        </label>
+            </div>
+        </li>
+    <!-- 如果用户未登录，则显示 “登录” -->
+
+    {% else %}
+                      {% if request.session.is_Adminlogin %}
+
+                                  <li class="nav-item dropdown" >
+                <a  class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{  request.session.Admin_username }}
+                </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="   margin-left: -40px;" >
+                <a class="dropdown-item"  href="/Admin_Tourism/1">进入后台</a>
+                <a class="dropdown-item"  href="/logout_by_admin/">退出登录</a>
+
+            </div>
+        </li>
+                      {% else %}
+                          <li class="nav-item">
+            <a class="nav-link" href="/AdminLogin/" style="color: black">管理员</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/login/" style="color: black">登录</a>
+        </li>
+                <li class="nav-item">
+            <a class="nav-link" href="/register/" style="color: black">注册</a>
+
+        </li>
+                      {% endif %}
+                          {% endif %}
+
+
+      </ul>
+    </div>
+
+
+{#  </div>#}
+
+
+</nav>
+{# </div>#}

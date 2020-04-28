@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+
+    <div class="container" style="background-color: #ffffff;width: auto;height: 800px;">
+    <label></label>
+    <ol class="breadcrumb" style="margin-bottom: 30px;background-color: #f1b0b740;">
+        <li class="breadcrumb-item"><a href="/index/">推文帮</a></li>
+        <li class="breadcrumb-item"><a href="/detailedCity/{{ article.Tourism_by_Region.id }}">{{ article.Tourism_city }}</a></li>
+        <li class="breadcrumb-item active">   {{ article.Tourism_name }}</li>
+
+    </ol>
+
+    <div class="content">
+        <a href="/Tourism_User/{{ id }}">购买：{{ article.Tourism_name }}</a>
+
+
+    </div>
+        </div>
+    <div class="container" style="background-color: #ffffff;width: auto;height: 250px;margin-top: 20px;">
+    {% if user.is_authenticated %}
+   <div style="margin-top: 60px;margin-bottom: 20px;">
+{#    <div >#}
+            <form
+{#                action="{% url 'comment:post_comment' article.id %}"#}
+                action="/post-comment/{{ Region.id }}/"
+                method="POST"
+            >
+
+            {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="body">
+                        <h3 style="text-align: center;color: rebeccapurple;margin-bottom: 40px;">
+                            我要吐槽：
+                        </h3>
+                    </label>
+                    <textarea style="height: 100px; font-size: 18px;" type="text" class="form-control" id="body" name="body" >
+
+                    </textarea>
+                            <div style="color: #1b6d85;">
+
+        </div>
+                </div>
+                <!-- 提交按钮 -->
+                <button type="submit" class="btn btn-primary" style="margin-left: 1000px;">发送</button>
+            </form>
+        </div>
+        </div>
+    <label></label>
+        <div class="container" style="background-color: #ffffff;width: auto;height: 800px;margin-top: 20px;margin-bottom: 600px; ">
+        <label></label>
+                 <h4 style="text-align: center;">共有{{ comments.count }}条评论</h4>
+
+        <br>
+        {% else %}
+        <br>
+        <h5 class="row justify-content-center">
+            请<a href="/login/">登录</a>后回复
+        </h5>
+        <br>
+
+    {% endif %}
+
+    <div style="margin-bottom: 100px;">
+        <small>{% for comment in comments %}</small>
+            <div style="background-color: #66d9ef50">
+{#            <div style=" border-radius:1px 1px 0px 0px; background-color: #e6e6e6; margin-top:20px;display:inline-block;">#}
+            <hr>
+            <p>
+                <strong style="color: pink">
+                       {{ user.first_name }}{{ user.last_name }}
+                </strong> 说：
+
+            </p>
+            <pre style="font-size: 20px;  text-indent: 2em;margin-bottom: 10px;margin-top: 20px; white-space: normal;background-color: #ffffff;height: 40px;width: 1100px;margin-left: 5px;">
+ <div>{{ comment.body|safe }}</div>
+            </pre>
+                            <span style="color: green;float: right">
+                    时间：{{ comment.time|date:"m-d H:i" }}
+                </span>
+            <label style="background-color: #66d9ef50"></label>
+            </div>
+        {% endfor %}
+     <ul class="pagination justify-content-center"  style="margin-top: 50px;" id="page" >
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+    {% if article_page.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page=1">首页</a></li>
+        {%  if article_page.number == 2  %}
+                <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{ qian }}">{{ qian }}</a></li>
+        {% else %}
+
+                   <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{ qian2 }}">{{ qian2 }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{ request.user.id }}?page={{article_page.number}}">{{article_page.number}}</a></li>
+
+
+        {% if article_page.has_next %}
+            {% if article_page.number == hou %}
+
+   {% else %}
+   <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{hou}}">{{ hou }}</a></li>
+                         {% endif %}
+        <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{article_page.paginator.num_pages  }}">尾页</a></li>
+
+
+                    {% endif %}
+
+   <li class="page-item"><a class="page-link">共{{ article_page.paginator.num_pages }}页</a></li>
+
+  </ul>
+    </div>
+
+</div>
+{% endblock %}

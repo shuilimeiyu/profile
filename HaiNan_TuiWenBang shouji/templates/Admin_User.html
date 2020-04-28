@@ -1,0 +1,178 @@
+{% extends 'AdminBase.html' %}
+{% load static %}
+{#{% block title %}管理员界面{% endblock %}#}
+{% block content %}
+
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+{#        <link rel="stylesheet" href="{% static 'css/AdminMenu.css' %}">#}
+        <script src="{% static 'popper/popper.js' %}">    </script>
+        <script src="{% static 'jquery/jquery-3.4.1.js' %}">    </script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}">    </script>
+
+<style>
+    #lgl_Admin_User_{{ id }}{
+        color: red;
+        font-size: 30px;
+        margin-bottom: 30px;
+        margin-top: 20px;
+    }
+</style>
+{% if user_pd == 1 %}
+
+<div class="alert alert-success">
+  关键字： <strong style="color: #c82333;">{{ soso }}</strong> 共搜索到： {{User_admin_page.count}}条。
+</div>
+    {% endif %}
+
+
+<div class="container-fluid">
+  {% if request.session.is_Adminlogin %}
+<a href="/Admin_User/1">
+   <button class="btn btn-success" id="lgl_Admin_User_1" type="button" style="margin-top: -2px;background-color: #009f95" >无填写资料用户</button>
+</a>
+<a href="/Admin_User/2">
+     <button class="btn btn-success" id="lgl_Admin_User_2" type="button" style="margin-top: -2px; background-color: violet">已填写资料用户</button>
+</a>
+
+      {% if id == 1 %}
+        <form class="form-inline" action="/User_soso/1" method="post" style="float:right;margin-bottom: 10px;margin-left: 20px">
+       {% csrf_token %}
+
+    <input class="form-control" type="text" placeholder="请输入用户名" name="user_soso">
+    <button class="btn btn-success" type="submit" style="margin-top: -2px;">搜索</button>
+  </form>
+      {% endif %} 
+
+      {% if id == 2 %}
+        <form class="form-inline" action="/User_soso/2" method="post" style="float:right;margin-bottom: 10px;margin-left: 20px">
+       {% csrf_token %}
+
+    <input class="form-control" type="text" placeholder="请输入用户名" name="user_soso">
+    <button class="btn btn-success" type="submit" style="margin-top: -2px;">搜索</button>
+  </form>
+      {% endif %}
+      
+
+
+            {% if id == 2 %}
+      <table class="table table-dark table-hover  table-bordered">
+    <thead>
+      <tr style="text-align: center;background-color: #1c7430">
+            <th>序号</th>
+            <th>用户名</th>
+            <th>上次登录时间</th>
+            <th>注册时间</th>
+          <th>最后一次登录</th>
+            <th>邮箱</th>
+            <th>姓</th>
+            <th>名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>城市</th>
+            <th>电话</th>
+
+            <th>操作</th>
+
+      </tr>
+    </thead>
+    <tbody>
+{% for foo in User_admin_page %}
+      <tr  style="text-align: center;">
+          <td>{{ foo.id }}</td>
+          <td>{{ foo.user_id.username }}</td>
+          <td>{{ foo.user_id.last_login }}</td>
+          <td>{{ foo.user_id.date_joined }}</td>
+           <td>{{ foo.user_id.last_login }}</td>
+          <td>{{ foo.user_id.email }}</td>
+          <td>{{ foo.user_id.first_name }}</td>
+          <td>{{ foo.user_id.last_name }}</td>
+           <td>{{ foo.age }}</td>
+
+          <td>{{ foo.sex }}</td>
+          <td>{{ foo.city }}</td>
+          <td>{{ foo.phone }}</td>
+
+
+          <td>
+          <button type="button" class="btn btn-danger" onclick="if(confirm('确定要删除吗？') ==false) return false;location.href='/User_del/2?User_id={{ foo.id }}&?page={{ User_admin_page.number }}'"   >删除</button>
+          <button type="button" class="btn btn-primary" onclick="window.location.href = '{% url "password_reset_recover" %}'" >修改</button>
+          </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+          {% endif %}
+      {% if id == 1 %}
+      
+
+                      <table class="table table-dark table-hover  table-bordered">
+    <thead>
+      <tr style="text-align: center;background-color: #1c7430">
+            <th>序号</th>
+            <th>用户名</th>
+            <th>上次登录时间</th>
+            <th>注册时间</th>
+          <th>最后一次登录</th>
+            <th>邮箱</th>
+            <th>姓</th>
+            <th>名</th>
+
+            <th>操作</th>
+
+      </tr>
+    </thead>
+    <tbody>
+{% for foo in User_admin_page %}
+      <tr  style="text-align: center;">
+          <td>{{ foo.id }}</td>
+          <td>{{ foo.username }}</td>
+          <td>{{ foo.last_login }}</td>
+          <td>{{ foo.date_joined }}</td>
+           <td>{{ foo.last_login }}</td>
+          <td>{{ foo.email }}</td>
+          <td>{{ foo.first_name }}</td>
+          <td>{{ foo.last_name }}</td>
+
+
+
+          <td>
+          <button type="button" class="btn btn-danger" onclick="if(confirm('确定要删除吗？') ==false) return false;location.href='/User_del/1?User_id={{ foo.id }}&page={{ User_admin_page.number }}'"   >删除</button>
+          <button type="button" class="btn btn-primary" onclick="window.location.href = '{% url "password_reset_recover" %}'" >修改</button>
+          </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+                {% endif %}
+      {% if id_page != 0 %}
+      
+
+     <ul class="pagination justify-content-center fixed-bottom " style="margin-bottom: 90px;" id="page" >
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+    {% if User_admin_page.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page=1">首页</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{ id }}?page={{User_admin_page.number}}">{{User_admin_page.number}}</a></li>
+
+
+        {% if User_admin_page.has_next %}
+         <li class="page-item"><a class="page-link" href="./{{ id }}?page={{hou}}">{{ hou }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{User_admin_page.paginator.num_pages  }}">尾页</a></li>
+
+        {% endif %}
+        <li class="page-item"><a class="page-link">共{{ User_admin_page.paginator.num_pages }}页</a></li>
+
+
+  </ul>
+                {% endif %}
+
+{% endif %}
+</div>
+{% endblock %}

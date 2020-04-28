@@ -1,0 +1,61 @@
+{% load static %}
+{#{% block title %}管理员界面{% endblock %}#}
+{% block content %}
+
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/admin.css' %}">
+        <script src="{% static 'popper/popper.js' %}">    </script>
+        <script src="{% static 'jquery/jquery-3.4.1.js' %}">    </script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}">    </script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">后台管理</a>
+
+  <!-- Links -->
+  <ul class="navbar-nav mr-auto">
+                         {% if request.session.is_Adminlogin %}
+    <li class="nav-item" >
+      <a class="nav-link" href="/Admin_Tourism/1">旅游管理</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/Admin_User/1" >用户管理</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/Admin_car/1">出租车管理</a>
+    </li><li class="nav-item">
+      <a class="nav-link" href="/AdminMeishi/1">美食</a>
+    </li>
+
+  </ul>
+
+
+      {% endif %}
+
+
+ <ul class="navbar-nav ml-auto">
+
+
+        <!-- 条目 -->
+
+        <!-- 如果用户已经登录，则显示用户名下拉框 -->
+
+               <li class="nav-item ">
+                   {% if request.session.is_Adminlogin %}
+                       <button type="button" class="btn btn-success" ><strong>{{ request.session.Admin_username }}</strong></button>
+                       <button type="button" class="btn btn-danger" onclick="window.location.href = '/logout_by_admin/'"><strong>退出</strong></button>
+                       <button type="button" class="btn btn-primary" onclick="window.location.href = '/index/'"><strong>返回主页</strong></button>
+
+                   {% else %}
+                         <p style="margin-top: 10px;color: red;"><strong>你还没有登录哦！</strong><a href="/AdminLogin/">点击登录</a></p>
+                   {% endif %} 
+
+
+      </ul>
+</nav>
+    <div class="container-fluid" style="margin-bottom: 20px;">
+
+    </div>
+
+
+{% endblock %}
