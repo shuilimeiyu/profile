@@ -1,0 +1,63 @@
+{#{% extends 'base.html' %}#}
+{% load static %}
+{#{% block title %} 登录 {% endblock title %}#}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'md_css/monokai.css' %}">
+     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <script src="{% static 'jquery/jquery-3.4.1.js' %}">    </script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}">    </script>
+    <body>
+<div class="container">
+
+                         {% if message %}
+          <div class="alert" >
+            <button type="button" class="close" data-dismiss="alert">关闭</button>
+                    <strong>注意：</strong>{{ message }}
+          </div>
+
+             {% endif %}
+    <div class="login_hezi">
+    <h5 >欢迎登录</h5>
+
+
+            <form method="post" action=".">
+                {% csrf_token %}
+
+
+{#                <div class="input-group input-group-lg">#}
+{#	            <span class="input-group-addon" style="background-color: #28a745"><i class="glyphicon glyphicon-user"></i></span>#}
+{#	            <input type="text" class="form-control"style="padding-left: 60px;">#}
+{#	        </div>#}
+
+                    <div class="input-group ">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="glyphicon glyphicon-user"></i></span>
+      </div>
+      <input type="text" class="form-control" placeholder="用户名"  name="username">
+    </div>
+
+
+                    <div class="input-group ">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="glyphicon glyphicon-lock"></i></span>
+      </div>
+      <input type="password" class="form-control" placeholder="密码"  name="password">
+    </div>
+                    <div class="button">
+                    <button type="submit" class="btn btn-primary" >登录</button>
+                    <button type="reset"  class="btn btn-info" >重置</button>
+                    <button type="button" class="btn btn-success" onclick="window.location.href = '{% url "password_reset_recover" %}'" >忘记密码</button>
+                        <button type="button" class="btn btn-warning" onclick="window.location.href = '/index'" >主页</button>
+
+                    </div>
+            </form>
+    </div>
+{#            <h5>忘记密码了？</h5>#}
+{#              <h5>点击<a href='{% url "password_reset_recover" %}'>这里</a>重置密码</h5>#}
+                 </div>
+    </body>
+{% endblock content %}

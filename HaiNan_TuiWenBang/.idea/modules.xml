@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Blog/.idea/Blog.iml" filepath="$PROJECT_DIR$/../Blog/.idea/Blog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/HaiNan_TuiWenBang.iml" filepath="$PROJECT_DIR$/.idea/HaiNan_TuiWenBang.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../推文帮项目爬虫/.idea/推文帮项目爬虫.iml" filepath="$PROJECT_DIR$/../推文帮项目爬虫/.idea/推文帮项目爬虫.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{#{% block title %}管理员界面{% endblock %}#}
+{% block content %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+<div class="container" style="background-color: #ffffff">
+<label></label>
+  <div class="alert alert-success alert-dismissible fade show" style="margin-top: 20px;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{title}}!</strong>
+  </div>
+	<div class="row" style="color:red; margin-top: 20px;">
+            {% for foo in meishi_page %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.jpg }}">
+					<div class="box-content">
+						<h3 style="color: #c82333" >{{ foo.name }}</h3>
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+
+
+		</div>
+
+     <ul class="pagination justify-content-center " id="page" style="margin-bottom: 50px;">
+
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+      <li class="page-item"><a class="page-link">共 {{ meishi_page.paginator.count }} 条</a></li>
+    {% if meishi_page.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page=1">首页</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{ id }}?page={{meishi_page.number}}">{{meishi_page.number}}</a></li>
+
+
+        {% if meishi_page.has_next %}
+         <li class="page-item"><a class="page-link" href="./{{ id }}?page={{hou}}">{{ hou }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{meishi_page.paginator.num_pages  }}">尾页</a></li>
+
+        {% endif %}
+
+        <li class="page-item"><a class="page-link ">共 {{ meishi_page.paginator.num_pages }} 页</a></li>
+  </ul>
+<label></label>
+</div>
+<label style="margin-top: 60px;margin-bottom: 50px;"></label>
+
+
+{% endblock %}

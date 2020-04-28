@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static  %}
+{% block content %}
+        <script src="{% static 'echarts/echarts.min.js' %}">    </script>
+
+{#<h4 class=" container" style="margin-bottom: 10px;padding-top:15px;background-color: #ffffff;height: 60px;text-align: center;">用户分析</h4>#}
+        <div class="container" style="background-color: #ffffff;margin-top: -60px;">
+      <div class="row">
+    <div class="col-md-6" style="background-color:#ffffff;">
+        <div id="mypie" style="width: 600px;height:400px;margin-top: 60px;"></div>
+    </div>
+    <div class="col-sm-6" style="background-color:#ffffff;">
+        <div id="main" style="width: 600px;height:400px; margin-right: 60px;"></div>
+    </div>
+
+  </div>
+<p class="text-center">用户共有：<code> {{ User_all }} </code>人，平均年龄为 <code>{{ Average_age }}</code></p>
+            </div>
+
+
+{#<h4 class=" container" style="margin-bottom: 10px;padding-top:15px;background-color: #ffffff;height: 60px;text-align: center;">旅游分析</h4>#}
+        <div class="container" style="background-color: #ffffff;margin-bottom: 600px;">
+                <div id="option_lgl_lyou" style="width: 1200px;height: 600px;margin-bottom: 60px;" class="col-md">
+
+                </div>
+             <p class="text-center">用户共有：<code> {{ all__ }} </code>个旅游景点，共收录了 <code>{{ all }}</code>个城市的景点</p>
+{#<p class="text-center">用户共有：<code> {{ User_all }} </code>人，平均年龄为 <code>{{ Average_age }}</code></p>#}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var mypie = echarts.init(document.getElementById('main'));
+        // 指定图表的配置项和数据
+        var day3 = new Date();
+        day3.setTime(day3.getTime()+24*60*60*1000);
+
+option_lgl_pie = {
+    title: {
+        text: '推文帮男女比例',
+        subtext: day3,
+        left: 'center'
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['男:{{ User_Analysis_boy.count }}人', '女:{{ User_Analysis_girl.count }}人',]
+    },
+    series: [
+        {
+            name: '访问来源',
+            type: 'pie',
+            radius: '55%',
+            center: ['50%', '60%'],
+            data: [
+                {value: {{User_Analysis_boy.count}}, name: '男:{{ User_Analysis_boy.count }}人'},
+                {value: {{User_Analysis_girl.count}}, name: '女:{{ User_Analysis_girl.count }}人'},
+
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+        // 使用刚指定的配置项和数据显示图表。
+        mypie.setOption(option_lgl_pie);
+
+
+
+                var mycategory = echarts.init(document.getElementById('mypie'));
+option_lgl_category = {
+    title: {
+        text: '推文帮男女比例',
+        subtext: '数据来自数据库',
+        left: 'left'
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    legend: {
+        data: ['男生', '女生']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+        type: 'category',
+        data: ['18-25岁', '26-33岁', '34-41岁', '42-49岁', '50-50岁']
+    },
+    series: [
+        {
+            name: '男生',
+            type: 'bar',
+            data: [{{ User_age_18_boy.count }}, {{ User_age_26_boy.count }}, {{ User_age_34_boy.count }}, {{ User_age_42_boy.count }}, {{ User_age_50_boy.count }}]
+        },
+
+        {
+            name: '女生',
+            type: 'bar',
+            data: [{{ User_age_18_girl.count }}, {{ User_age_26_girl.count }}, {{ User_age_34_girl.count }}, {{ User_age_42_girl.count }}, {{ User_age_50_girl.count }}]
+        }
+    ]
+};
+
+    mycategory.setOption(option_lgl_category)
+    {#          end         #}
+
+
+          var option_lgl_lyou1 = echarts.init(document.getElementById('option_lgl_lyou'));
+        option_lgl_lyou = {
+    title: {
+        text: '旅游分析折线图'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['旅游景点', '平均价格','平均热度']
+        {##'视频广告', '直接访问', '搜索引擎'#}
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['海口', '三亚', '澄迈', '儋州', '琼中', '定安', '屯昌', '琼海', '文昌', '保亭', '万宁', '陵水', '五指山']
+
+
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name: '旅游景点',
+            type: 'line',
+            stack: '总量',
+            data: {{ Tourism_count }}
+        },
+        {
+            name: '平均价格',
+            type: 'line',
+            stack: '总量',
+            data: {{ Tourism_Price }}
+        },
+        {
+            name: '平均热度',
+            type: 'line',
+            stack: '总量',
+            data: {{total1}}
+        },
+        {
+            name: '直接访问',
+            type: 'line',
+            stack: '总量',
+            {#data: [320, 332, 301, 334, 390, 330, 320]#}
+        },
+        {
+            name: '搜索引擎',
+            type: 'line',
+            stack: '总量',
+            {#data: [820, 932, 901, 934, 1290, 1330, 1320]#}
+        }
+    ]
+};
+
+    option_lgl_lyou1.setOption(option_lgl_lyou);
+
+    </script>
+
+
+
+{% endblock %}

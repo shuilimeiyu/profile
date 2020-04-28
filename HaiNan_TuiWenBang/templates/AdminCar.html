@@ -1,0 +1,81 @@
+{% extends 'AdminBase.html' %}
+{% load static %}
+{#{% block title %}管理员界面{% endblock %}#}
+{% block content %}
+
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+{#        <link rel="stylesheet" href="{% static 'css/AdminMenu.css' %}">#}
+        <script src="{% static 'popper/popper.js' %}">    </script>
+        <script src="{% static 'jquery/jquery-3.4.1.js' %}">    </script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}">    </script>
+
+
+
+
+
+<div class="container-fluid">
+
+  {% if request.session.is_Adminlogin %}
+      <table class="table  table-dark table-hover">
+
+    <thead>
+      <tr style="text-align: center; background-color: #1c7430">
+          <th>序号</th>
+        <th>车牌号</th>
+        <th>车主姓名</th>
+          <th>车子颜色</th>
+        <th>车型</th>
+          <th>车子价格</th>
+
+            <th>操作</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+{% for foo in car_admin_page %}
+      <tr style="text-align: center">
+      <td>{{ foo.id }}</td>
+        <td>{{ foo.car_number }}</td>
+        <td>{{ foo.car_name }}</td>
+        <td>{{ foo.car_color }}</td>
+        <td>{{ foo.Vehicle_type }}</td>
+        <td>{{ foo.car_Price }}</td>
+
+
+
+        </td><td><button type="button" class="btn btn-danger" onclick="window.location.href = '{% url "password_reset_recover" %}'" >删除</button><button type="button" class="btn btn-primary" onclick="window.location.href = '{% url "password_reset_recover" %}'" >修改</button></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+     <ul class="pagination justify-content-center fixed-bottom " style="margin-bottom: 100px;" >
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+    {% if car_admin_page.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./1">首页</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+      {# 结束 #}
+     {% if car_admin_page.number == 1 %}
+
+        <li class="page-item active"><a class="page-link" href="./{{car_admin_page.number}}">{{car_admin_page.number}}</a></li>
+
+{% else %}
+         <li class="page-item active"><a class="page-link" href="./{{car_admin_page.number}}">{{car_admin_page.number}}</a></li>
+     {% endif %}
+        {% if car_admin_page.has_next %}
+         <li class="page-item"><a class="page-link" href="./{{hou}}">{{ hou }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{car_admin_page.paginator.num_pages  }}">尾页</a></li>
+
+        {% endif %}
+        <li class="page-item"><a class="page-link">共{{ car_admin_page.paginator.num_pages }}页</a></li>
+
+
+
+  </ul>
+{% endif %}
+</div>
+{% endblock %}

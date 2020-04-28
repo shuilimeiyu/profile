@@ -1,0 +1,147 @@
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "base.html" %}
+{% load static %}
+
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    文章详情
+{% endblock title %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+
+<!-- 文章详情 -->
+<div class="container" style="background-color: #ffffff">
+{##}
+    <div class="row" style="margin-top: 100px;">
+        <!-- 标题及作者 -->
+        <h3 class="col-12 mt-4 mb-4" style='height:auto; text-align: center;'>{{ article.title }}</h3>
+        <div class="col-12 mt-4 mb-4" style="text-align: center;color:#DED38C;" >
+                        作者：{{ article.author }}
+       </div>
+
+        <!-- 文章正文 -->
+        <div class="col-12" style="background-color: #ffffff;">
+          <p style="text-indent: 2em;line-height:40px;margin-top: 20px;background-color: #89BEB230">{{ article.boby|safe }}</p>
+        </div>
+
+    </div>
+</div>
+    <div class="container" style="background-color: #ffffff">
+        {% if user.is_authenticated %}
+   <div style="margin-top: 50px;margin-bottom: 20px;">
+{#    <div >#}
+            <form action="/post_comment_/{{ id }}" method="POST" >
+
+            {% csrf_token %}
+            <label></label>
+                <div class="form-group">
+
+                    <textarea style="height: 120px; font-size: 16px; text-indent: 2em;" type="text" class="form-control" id="body" name="body" ></textarea>
+
+                </div>
+                            <label></label>
+
+                <!-- 提交按钮 -->
+                <p style="float: left;color: #fd7e14;">输入你想要说的话！点击发送，即可评论!!!</p>
+                <button type="submit" class="btn btn-primary" style="float: right;margin-top: -15px">发表评论</button>
+            </form>
+
+        </div>
+
+        </div>
+    <label></label>
+
+        <div class="container" style="background-color: #ffffff;width: auto;height: auto;margin-top: 20px;margin-bottom: 100px; ">
+        <label></label>
+{#                 <h4 style="text-align: center;">共有{{ comments.count }}条评论</h4>#}
+
+        <br>
+        {% else %}
+        <br>
+        <h5 class="row justify-content-center">
+            请<a href="/login/">登录</a>后回复
+        </h5>
+
+        </div>
+    {% endif %}
+
+        <div class="container" style="background-color: #ffffff;margin-bottom: 200px;" >
+    {% for comment in articles %}
+ <!-- 左对齐 -->
+  <div class="media" style="margin-bottom: -10px;padding-top: 15px;">
+
+    <div class="media-left">
+
+      <img src="https://static.runoob.com/images/mix/img_avatar.png" class="media-object" style="width:60px">
+    </div>
+    <div class="media-body" style="margin-left: 20px;">
+      <code class="media-heading"><strong>{{ comment.user.first_name}} {{ comment.user.last_name}}</strong></code>
+      <pre class="text-justify" style="font-size: 14px;  text-indent: 2em;margin-bottom: 10px;margin-top: 10px; white-space: normal;background-color: #e6e6e680;height: 80px;width: 1000px;margin-left: 5px;">{{ comment.body | safe }}</pre>
+        <code style="float: right">{{ comment.time|date:"m-d H:i"  }}</code>
+        <code style="float: left">{{ comment.id }}楼 </code>
+    </div>
+  </div>
+  <hr>
+
+
+    {% endfor %}
+
+            </div>
+
+
+<div class="container">
+{% if articles.paginator.count == 0%}
+
+    <h1 class="text-center" style="padding-bottom: 20px;">暂时没有评论！</h1>
+    {% else %}
+     <ul class="pagination justify-content-center " style="margin-top: -150px;margin-bottom: 100px;" id="page" >
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+        <li class="page-item"><a class="page-link">共{{ articles.paginator.num_pages }}页</a></li>
+    {% if articles.has_previous %}
+
+
+        <li class="page-item"><a class="page-link" href="./{{  id }}?page=1">首页</a></li>
+        {%  if articles.number == 2  %}
+                <li class="page-item"><a class="page-link" href="./{{  id }}?page={{ qian }}">{{ qian }}</a></li>
+        {% else %}
+
+                   <li class="page-item"><a class="page-link" href="./{{  id }}?page={{ qian2 }}">{{ qian2 }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{  id }}?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{  id }}?page={{articles.number}}">{{articles.number}}</a></li>
+
+
+        {% if articles.has_next %}
+            {% if articles.number == hou %}
+
+   {% else %}
+   <li class="page-item"><a class="page-link" href="./{{  id }}?page={{hou}}">{{ hou }}</a></li>
+                         {% endif %}
+        <li class="page-item"><a class="page-link" href="./{{  id }}?page={{articles.paginator.num_pages  }}">尾页</a></li>
+
+
+                    {% endif %}
+
+
+        <li class="page-item"><a class="page-link">共{{ articles.paginator.count }}条</a></li>
+
+  </ul >
+
+
+{% endif %}
+</div>
+
+
+    <script>
+    $(".django-ckeditor-widget").removeAttr('style');
+</script>
+
+{% endblock content %}

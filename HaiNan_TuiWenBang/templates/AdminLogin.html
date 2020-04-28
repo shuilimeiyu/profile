@@ -1,0 +1,76 @@
+{#{% extends 'base.html' %}#}
+{% load static %}
+{% block title %} 登录 {% endblock title %}
+{% block content %}
+        <!-- 引入bootstrap的css文件 -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'md_css/monokai.css' %}">
+     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <script src="{% static 'jquery/jquery-3.4.1.js' %}">    </script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}">    </script>
+    <link rel="stylesheet" href="{% static 'css/AdminLogin.css' %}">
+    <body>
+<div class="container">
+
+                         {% if message %}
+          <div class="alert">
+            <button type="button" class="close" data-dismiss="alert">关闭</button>
+                    <strong>注意：</strong>{{ message }}
+          </div>
+
+             {% endif %}
+    <div class="login_hezi">
+    <h5 >欢迎登录</h5>
+
+
+            <form method="post" action="/AdminLogin/">
+                {% csrf_token %}
+                             <div class="input-group ">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="glyphicon glyphicon-user"></i></span>
+      </div>
+{{ login_form.AdminUsername}}
+    </div>
+
+                                    <div class="input-group ">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="glyphicon glyphicon-lock"></i></span>
+      </div>
+     {{ login_form.AdminPassword }}
+    </div>
+
+
+                    <button type="submit" class="btn btn-info" >登录</button>
+                    <button type="reset"  class="btn btn-success"  >重置</button>
+                        <button type="button" class="btn btn-warning" onclick="window.location.href = '/index'" >主页</button>
+
+
+            </form>
+    </div>
+{#            <h5>忘记密码了？</h5>#}
+{#              <h5>点击<a href='{% url "password_reset_recover" %}'>这里</a>重置密码</h5>#}
+                 </div>
+    </body>
+{% endblock content %}
+{##}
+{#      <form class='form-login' action="/AdminLogin/" method="post">#}
+{##}
+{#          {% csrf_token %}#}
+{#          <h2 class="text-center" style="margin-top: 200px;">管理员登录</h2>#}
+{#          <div class="form-group"> {{ login_form.AdminUsername.label_tag }}#}
+{#              {{ login_form.AdminUsername}} </div>#}
+{#          <div class="form-group"> {{ login_form.AdminPassword.label_tag }}#}
+{#              {{ login_form.AdminPassword }} </div>#}
+{##}
+{#                    {% if message %}#}
+{#              <div class="alert alert-warning">#}
+{#                  {{ message }}#}
+{#              </div>#}
+{#          {% endif %}#}
+{#          <button type="reset" class="btn btn-default pull-left">重置</button>#}
+{#          <button type="submit" class="btn btn-primary pull-right">提交</button>#}
+{##}
+{##}
+{#      </form>#}

@@ -1,0 +1,124 @@
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    文章列表
+{% endblock title %}
+
+{% block content %}
+        <style>
+            .lgl_a:hover{
+
+                font-size: 20px;
+                color: #ffffff;
+                text-decoration:none;
+            }
+        .lgl_a{
+            color: black;
+            font-size: 19px;
+            text-decoration:none;
+        }
+        </style>
+
+
+<div class="container" style="background-color: #ffffff;margin-bottom: 20px;width: auto;height: 60px;">
+ <button type="button" class="btn btn-success" style="float: left;margin-top: 10px;background-color: #ffffff;color: black" onclick="window.location.href ='/index'">返回主页</button>
+  <button type="button" class="btn btn-success" style="float: left;margin-left: 450px;background-color: #ffffff;color:  black;margin-top: 12px;" onclick="window.location.href ='/Article_Add'">写文章</button>
+    <button type="button" class="btn btn-success" style="float: right;margin-top: 10px;background-color: #ffffff;color: black" onclick="window.location.href ='/gerenziliao'">个人资料</button>
+</div>
+
+        <div class="container" style="background-color: #ffffff;height: 600px;">
+        <label></label>
+        {% for x,foo in zipArticle %}
+
+      <div class="card bg-{{ x }} text-white"  style="margin-top: 60px;">
+
+    <div class="card-body" >
+        <a class="lgl_a"  href="/Article_detail/{{ foo.id }}" >{{ foo.title }}</a>
+        <p style="float: right; color: #171a1d">{{ foo.author.first_name }}{{ foo.author.last_name }}于<small>{{ foo.created }}</small>发表</p><br>
+
+        <p style="color: black;float: right;"></p>
+        <p style="color:rebeccapurple; margin-top: 10px">点击量：<small>{{ foo.total_views }}</small></p>
+
+    </div>
+            </div>
+        {% endfor %}
+  </div>
+<label></label>
+    <ul class="pagination justify-content-center container"  style="margin-bottom: 100px; background-color: #ffffff" id="page" >
+
+    {% if request.user.id %}
+
+
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+    {% if article_page.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./1?page=1">首页</a></li>
+        {%  if article_page.number == 2  %}
+                <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{ qian }}">{{ qian }}</a></li>
+        {% else %}
+
+                   <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{ qian2 }}">{{ qian2 }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{ request.user.id }}?page={{article_page.number}}">{{article_page.number}}</a></li>
+
+
+        {% if article_page.has_next %}
+            {% if article_page.number == hou %}
+
+   {% else %}
+   <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{hou}}">{{ hou }}</a></li>
+                         {% endif %}
+        <li class="page-item"><a class="page-link" href="./{{ request.user.id }}?page={{article_page.paginator.num_pages  }}">尾页</a></li>
+
+
+                    {% endif %}
+
+   <li class="page-item"><a class="page-link">共{{ article_page.paginator.num_pages }}页</a></li>
+
+{% else %}
+            {% if article_page.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./100000000?page=1">首页</a></li>
+        {%  if article_page.number == 2  %}
+                <li class="page-item"><a class="page-link" href="./100000000?page={{ qian }}">{{ qian }}</a></li>
+        {% else %}
+
+                   <li class="page-item"><a class="page-link" href="./100000000?page={{ qian2 }}">{{ qian2 }}</a></li>
+        <li class="page-item"><a class="page-link" href="./100000000?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./100000000?page={{article_page.number}}">{{article_page.number}}</a></li>
+
+
+        {% if article_page.has_next %}
+            {% if article_page.number == hou %}
+
+   {% else %}
+   <li class="page-item"><a class="page-link" href="./100000000?page={{hou}}">{{ hou }}</a></li>
+                         {% endif %}
+        <li class="page-item"><a class="page-link" href="./100000000?page={{article_page.paginator.num_pages  }}">尾页</a></li>
+
+
+                    {% endif %}
+
+   <li class="page-item"><a class="page-link">共{{ article_page.paginator.num_pages }}页</a></li>
+    {% endif %}
+
+  </ul>
+
+{% endblock content %}

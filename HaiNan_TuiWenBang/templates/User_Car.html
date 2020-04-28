@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style >
+         #img_lgl:hover{
+            background-color: #ffc107;
+            -ms-transform:rotate(9deg); /* Internet Explorer */
+            -moz-transform:rotate(9deg); /* Firefox */
+            -webkit-transform:rotate(9deg); /* Safari 和 Chrome */
+            -o-transform:rotate(9deg); /* Opera */
+         {#transform: scale(1.1);#}
+        }
+    </style>
+<div class="container" style="background-color: #ffffff;margin-bottom: 20px;">
+<div class="row" style="margin-bottom: 100px;">
+ {% for foo in User_car_page %}
+    <div class="col-sm-4" >
+        <div class="thumbnail" style="margin-left: 20px;">
+            <img id="img_lgl" src="https://www.runoob.com//wp-content/uploads/2014/06/kittens.jpg"alt="通用的占位符缩略图" style="width: 300px;margin-top: 20px">
+            <div class="caption">
+                <h3>{{foo.Vehicle_type}}</h3>
+                <p>车主姓名：<code>{{ foo.car_name }}</code></p>
+                <p>租赁价格：<code>{{ foo.car_Price }}</code>元</p>
+
+
+                   <button class="btn btn-info" data-toggle="modal" data-target="#lglzz{{ foo.id }}">
+                           租赁
+                </button>
+
+           <button class="btn btn-dark" data-toggle="modal" data-target="#myModal{{ foo.id }}" style="float: right;">
+	详情
+</button>
+
+
+            </div>
+        </div>
+    </div>
+
+         <div class="modal fade" id="lglzz{{ foo.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="margin-top: 300px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">
+				</button>
+				<h4 class="modal-title text-center" id="myModalLabel" style="margin-right: 180px;">
+					汽车租赁
+				</h4>
+			</div>
+			<div class="modal-body" style="margin-top: 60px;">
+            <p>租赁价格：<code>{{ foo.car_Price }}</code>元,<code>1</code>天</p>
+                <p>按天起租,请输入整数的天数:</p>
+            <form method="get" action="/User_car_add/{{ foo.id }}">
+                <input class="form-control" name="time" placeholder="请输入天数，并且按租赁按钮提交！">
+
+
+			<button type="submit" class="btn btn-primary" style="float: right;margin-bottom: 60px;margin-top: 12px;">
+					租赁
+				</button>
+ </form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default"
+						data-dismiss="modal">关闭
+				</button>
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+        <div class="modal fade" id="myModal{{ foo.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="margin-top: 300px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">
+				</button>
+				<h4 class="modal-title text-center" id="myModalLabel" style="margin-right: 180px;">
+					汽车租赁
+				</h4>
+			</div>
+			<div class="modal-body">
+
+                <p>车主姓名：<code>{{ foo.car_name }}</code></p>
+                <p>租赁价格：<code>{{ foo.car_Price }}</code>元</p>
+                                <p>车牌：<code>{{ foo.car_number }}</code></p>
+                <p>颜色：<code>{{ foo.car_color }}</code></p>
+                                <p>车子类型：<code>{{ foo.Vehicle_type }}</code></p>
+                <p>隐藏：<code>{{ foo.car_hide }}</code></p>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default"
+						data-dismiss="modal">关闭
+				</button>
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+        <!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="margin-top: 300px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">
+				</button>
+				<h4 class="modal-title text-center" id="myModalLabel" style="margin-right: 180px;">
+					汽车租赁
+				</h4>
+			</div>
+			<div class="modal-body">
+
+                <p>车主姓名：<code>{{ foo.car_name }}</code></p>
+                <p>租赁价格：<code>{{ foo.car_Price }}</code>元</p>
+                                <p>车牌：<code>{{ foo.car_number }}</code></p>
+                <p>颜色：<code>{{ foo.car_color }}</code></p>
+                                <p>车子类型：<code>{{ foo.Vehicle_type }}</code></p>
+                <p>隐藏：<code>{{ foo.car_hide }}</code></p>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default"
+						data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary">
+					提交更改
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    {% endfor %}
+
+</div>
+
+
+     <ul class="pagination justify-content-center  " style="margin-bottom: 100px;" >
+
+{#       判断是否有上一页，是的话现实上一页，没有的话 直接现实首页#}
+    {% if User_car_page.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="/User_car/?page=1">首页</a></li>
+        <li class="page-item"><a class="page-link" href="/User_car/?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+{#       结束#}
+     {% if User_car_page.number == 1 %}
+
+        <li class="page-item active"><a class="page-link" href="/User_car/?page={{User_car_page.number}}">{{User_car_page.number}}</a></li>
+
+{% else %}
+         <li class="page-item active"><a class="page-link" href="/User_car/?page={{User_car_page.number}}">{{User_car_page.number}}</a></li>
+     {% endif %}
+        {% if User_car_page.has_next %}
+         <li class="page-item"><a class="page-link" href="/User_car/?page={{hou}}">{{ hou }}</a></li>
+        <li class="page-item"><a class="page-link" href="/User_car/?page={{User_car_page.paginator.num_pages  }}">尾页</a></li>
+
+        {% endif %}
+        <li class="page-item"><a class="page-link">共{{ User_car_page.paginator.num_pages }}页</a></li>
+
+
+
+  </ul>
+</div>
+
+{% endblock %}

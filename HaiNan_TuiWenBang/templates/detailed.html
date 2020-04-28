@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+
+    <div class="container" style="background-color: #ffffff;width: auto;height: 600px;">
+    <label></label>
+    <ol class="breadcrumb" style="margin-bottom: 30px;background-color: #f1b0b740;">
+        <li class="breadcrumb-item"><a href="/index/">推文帮</a></li>
+        <li class="breadcrumb-item"><a href="/detailedCity/{{ article.Tourism_by_Region.id }}">{{ article.Tourism_city }}</a></li>
+        <li class="breadcrumb-item active">   {{ article.Tourism_name }}</li>
+
+    </ol>
+
+    <div class="content">
+        <a href="/Tourism_User/{{ id }}">购买：{{ article.Tourism_name }}</a>
+        <a href="/AddMoney/">购买：{{ article.Tourism_name }}</a>
+
+
+    </div>
+        </div>
+    <div class="container" style="background-color: #ffffff;width: auto;height: 200px;margin-top: 20px;margin-bottom: 20px;">
+    {% if user.is_authenticated %}
+   <div style="margin-top: 50px;margin-bottom: 20px;">
+{#    <div >#}
+            <form
+{#                action="{% url 'comment:post_comment' article.id %}"#}
+                action="/post-comment/{{ Region.id }}/"
+                method="POST"
+            >
+
+            {% csrf_token %}
+            <label></label>
+                <div class="form-group">
+
+                    <textarea style="height: 120px; font-size: 16px; text-indent: 2em;" type="text" class="form-control" id="body" name="body" ></textarea>
+
+                </div>
+                <!-- 提交按钮 -->
+                <p style="float: left;color: #fd7e14;">输入你想要说的话！点击发送，即可评论!!!</p>
+                <button type="submit" class="btn btn-primary" style="float: right;margin-top: -10px">发表评论</button>
+            </form>
+        </div>
+
+        </div>
+    <label></label>
+
+        <div class="container" style="background-color: #ffffff;width: auto;height: auto;margin-top: 20px;margin-bottom: 100px; ">
+        <label></label>
+{#                 <h4 style="text-align: center;">共有{{ comments.count }}条评论</h4>#}
+
+        <br>
+        {% else %}
+        <br>
+        <h5 class="row justify-content-center">
+            请<a href="/login/">登录</a>后回复
+        </h5>
+
+        </div>
+    {% endif %}
+
+        <div class="container" style="background-color: #ffffff;margin-bottom: 200px;" >
+    {% for comment in articles %}
+ <!-- 左对齐 -->
+  <div class="media" style="margin-bottom: -10px;padding-top: 15px;">
+
+    <div class="media-left">
+
+      <img src="https://static.runoob.com/images/mix/img_avatar.png" class="media-object" style="width:60px">
+    </div>
+    <div class="media-body" style="margin-left: 20px;">
+      <code class="media-heading"><strong>{{ comment.user.first_name}} {{ comment.user.last_name}}</strong></code>
+      <pre class="text-justify" style="font-size: 14px;  text-indent: 2em;margin-bottom: 10px;margin-top: 10px; white-space: normal;background-color: #e6e6e680;height: 80px;width: 1000px;margin-left: 5px;">{{ comment.body | safe }}</pre>
+        <code style="float: right">{{ comment.time|date:"m-d H:i"  }}</code>
+    </div>
+  </div>
+  <hr>
+
+
+    {% endfor %}
+
+            </div>
+
+
+<div class="container">
+{% if articles.paginator.count == 0%}
+
+    <h1 class="text-center" style="padding-bottom: 20px;">暂时没有评论！</h1>
+    {% else %}
+     <ul class="pagination justify-content-center " style="margin-top: -150px;margin-bottom: 100px;" id="page" >
+
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+        <li class="page-item"><a class="page-link">共{{ articles.paginator.num_pages }}页</a></li>
+    {% if articles.has_previous %}
+
+
+        <li class="page-item"><a class="page-link" href="./{{ Region.id }}?page=1">首页</a></li>
+        {%  if articles.number == 2  %}
+                <li class="page-item"><a class="page-link" href="./{{ Region.id }}?page={{ qian }}">{{ qian }}</a></li>
+        {% else %}
+
+                   <li class="page-item"><a class="page-link" href="./{{ Region.id }}?page={{ qian2 }}">{{ qian2 }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ Region.id }}?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{ Region.id }}?page={{articles.number}}">{{articles.number}}</a></li>
+
+
+        {% if articles.has_next %}
+            {% if articles.number == hou %}
+
+   {% else %}
+   <li class="page-item"><a class="page-link" href="./{{ Region.id }}?page={{hou}}">{{ hou }}</a></li>
+                         {% endif %}
+        <li class="page-item"><a class="page-link" href="./{{ Region.id }}?page={{articles.paginator.num_pages  }}">尾页</a></li>
+
+
+                    {% endif %}
+
+
+        <li class="page-item"><a class="page-link">共{{ articles.paginator.count }}条</a></li>
+
+  </ul >
+    </div>
+
+
+{% endif %}
+
+{% endblock %}

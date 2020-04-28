@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}推文帮{% endblock %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+
+<div class="container" style="background-color: #ffffff;margin-top: 60px;margin-bottom: 60px;">
+<label style="margin-bottom: 60px;"></label>
+<div id="demo" class="carousel slide" data-ride="carousel" style="margin-top: 20px;margin-bottom: 60px;">
+
+  <!-- 轮播图片 -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://static.runoob.com/images/mix/img_fjords_wide.jpg">
+    </div>
+    <div class="carousel-item">
+      <img src="https://static.runoob.com/images/mix/img_nature_wide.jpg">
+    </div>
+    <div class="carousel-item">
+      <img src="https://static.runoob.com/images/mix/img_mountains_wide.jpg">
+        <div class="carousel-caption">
+        <h3>三亚优美亚龙湾</h3>
+        <p>亚龙弯，文人的天堂!</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 左右切换按钮 -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+
+</div>
+
+
+<div class="lanmu" style="margin-left: 100px;">
+ {% for foo in Region1 %}
+     <button  class="btn btn-outline-primary " id="lgl_lanmu{{ foo.id}}" onclick="window.location.href = '/detailedCity/{{ foo.id }}'" >{{ foo.Region_city }}</button>
+ {% endfor %}
+</div>
+
+
+	<div class="row clearfix" style="background-color: #ffffff;">
+		<div class="col-md-12 column">
+			<h3 style="color: black;margin-top: 30px;">
+				网站最热门的旅游景点
+			</h3>
+			<p style="color:black;text-indent:2em; margin-bottom: 20px;margin-top: 10px;">
+				由于本网站是用于撰写推文的同僚使用，方便关注顾客去向，顾客的习惯，下面是本网站访问亮最多的旅游景点。
+			</p>
+			<p>
+				 <a class="btn" href="/search_Scenic/" style="float: right;width: 200px;">查看全部景点 »</a>
+			</p>
+		</div>
+	</div>
+
+
+
+{#         图片#}
+		<div class="row" style="color:red; margin-top: 20px;">
+            {% for foo in articles %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.image }}">
+					<div class="box-content">
+						<h3 class="title"><a href="/detailed/{{ foo.id }}">{{ foo.Tourism_name }}</a></h3>
+						<span class="post">价格：{{ foo.Tourism_Price }}</span>
+                        <span class="post">点击量：{{ foo.total_views }}</span>
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+
+
+		</div>
+</div>
+<div class="container" style="background-color: #ffffff;margin-top: 90px;margin-bottom: 90px;">
+
+
+
+{#图片 end#}
+
+{% if message %}
+<div class="alert alert-warning">
+
+{{ message }}
+</div>
+    {% else %}
+
+
+{% endif %}
+
+		 <div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="tabbable" id="tabs-535123">
+				<ul class="nav nav-tabs" style="border-bottom:1px dashed red">
+					<li >
+						 <a style="margin-right: 80px;"   class="btn btn-outline-primary " href="#panel-225054" data-toggle="tab">海南特色 </a>
+					</li>
+					<li class="active">
+						  <a  style="margin-right: 80px;" class="btn btn-outline-primary " href="#panel-808065" data-toggle="tab">海南特产 </a>
+					</li>
+                    		<li class="active">
+						  <a  style="margin-right: 80px;" class="btn btn-outline-primary " href="#panel-808066" data-toggle="tab">海南小吃 </a>
+					</li>
+                    		<li class=" active">
+						  <a   class="btn btn-outline-primary " href="#panel-808007" data-toggle="tab">海南招牌 </a>
+					</li>
+
+
+				</ul>
+
+
+
+				<div class="tab-content">
+					<div class="tab-pane" id="panel-225054">
+<div class="row clearfix" style="margin-top: 23px;margin-bottom: 20px;">
+		<div class="col-md-12 column">
+{#			<h2>#}
+{#				海南特色#}
+{#			</h2>#}
+			<p>
+            具有海南特色的小吃，
+			</p>
+			<p>
+		 <a class="btn" href="/meishi/1" style="float:right ">查看更多 »</a>
+			</p>
+		</div>
+	</div>
+					<div class="row" style="color:red; margin-top: 20px;">
+            {% for foo in tese_show %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.jpg }}">
+					<div class="box-content">
+						<h3 class="title"><a href="/detailed/{{ foo.id }}">{{ foo.name }}</a></h3>
+
+
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+		</div>
+
+					</div>
+					<div class="tab-pane" id="panel-808065">
+<div class="row clearfix" style="margin-top: 23px;margin-bottom: 20px;">
+		<div class="col-md-12 column" >
+			<h2>
+				海南特产
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+			 <a class="btn" href="/meishi/2" style="float:right ">查看更多 »</a>
+			</p>
+		</div>
+	</div>
+                        <div class="row" style="color:red; margin-top: 20px;">
+            {% for foo in tecan_show %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.jpg }}">
+					<div class="box-content">
+						<h3 class="title"><a href="/detailed/{{ foo.id }}">{{ foo.name }}</a></h3>
+
+
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+		</div>
+
+
+					</div>
+                    <div class="tab-pane active" id="panel-808066">
+<div class="row clearfix" style="margin-top: 23px;margin-bottom: 20px;">
+		<div class="col-md-12 column">
+			<h2>
+				海南小吃
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+			 <a class="btn" href="/meishi/3" style="float:right ">查看更多 »</a>
+			</p>
+		</div>
+	</div>
+                        <div class="row" style="color:red; margin-top: 20px;">
+            {% for foo in xiaochi_show %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.jpg }}">
+					<div class="box-content">
+						<h3 class="title"><a href="/detailed/{{ foo.id }}">{{ foo.name }}</a></h3>
+
+
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+		</div>
+
+					</div>
+                		<div class="tab-pane " id="panel-808007">
+<div class="row clearfix" style="margin-top: 23px;margin-bottom: 20px;">
+		<div class="col-md-12 column">
+			<h2>
+				海南招牌小吃
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+				 <a class="btn" href="/meishi/4" style="float:right ">查看更多 »</a>
+			</p>
+		</div>
+	</div>
+	        					<div class="row" style="color:red; margin-top: 20px;">
+            {% for foo in zhaopai_show %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.jpg }}">
+					<div class="box-content">
+						<h3 class="title"><a href="/detailed/{{ foo.id }}">{{ foo.name }}</a></h3>
+
+
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+		</div>
+
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+    </div>
+
+
+
+
+
+{% endblock %}

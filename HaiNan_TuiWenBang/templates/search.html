@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}推文帮{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <div class="container" style="background-color: #ffffff; margin-bottom: 20px;margin-top: 20px;">
+
+{% if message %}
+    {% if a ==  0 %}
+      <div class="alert alert-dismissible fade show" style="margin-top:12px;background-color: #ffffff;color: black">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+           关键词 <strong>{{ search }}</strong> 搜索，共有
+    <strong>{{ page_1 }}</strong>  条
+
+
+      </div>
+        {% else %}
+            <div class="container text-center" style="background-color: #ffffff;height: 60px;padding-top: 10px;">
+        <div class="row" style="text-align: center; margin-left: 400px;">
+            <form class="form-inline" action="/search_Scenic/" method="get">
+       {% csrf_token %}
+    <input class="form-control text-center" type="text" id="soso" placeholder="请输入旅游景点名字" name="search_Scenic_car">
+    <button class="btn btn-success text-center" id="q1q1" type="submit" style="margin-top: -2px; ">搜索</button>
+  </form></div>
+    </div>
+                {% endif %}
+
+
+
+    </div>
+
+
+        <div class="container" style="background-color: #ffffff; margin-bottom: 100px;margin-top: 20px;">
+        <label></label>
+        <div class="row" style="color:red; margin-top: 20px;">
+            {% for foo in articles %}
+			<div class="col-md-4 col-sm-6">
+				<div class="box">
+					<img src=".{{ foo.image }}">
+					<div class="box-content">
+						<h3 class="title"><a href="/detailed/{{ foo.id }}">{{ foo.Tourism_name }}</a></h3>
+						<span class="post">价格：{{ foo.Tourism_Price }}</span>
+                        <span class="post">点击量：{{ foo.total_views }}</span>
+					</div>
+				</div>
+			</div>
+              {% endfor %}
+
+
+		</div>
+        <label></label>
+
+    {% else %}
+            <div class="alert alert-warning" style="margin-bottom: 20px;margin-top: 20px;text-align: center;">
+    <strong>没有找到任何的东西！</strong>
+  </div>
+
+{% endif %}
+  <ul class="pagination justify-content-center " style="" id="page" >
+  {%  if a == 0 %}
+    <li class="page-item"><a class="page-link">共{{articles.paginator.count}}条</a></li>
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+    {% if articles.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page=1"}&search_Scenic_car={{search}}>首页</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{ qian }}}&search_Scenic_car={{search}}">{{ qian }}</a></li>
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{ id }}?page={{articles.number}}&search_Scenic_car={{search}}}">{{articles.number}}</a></li>
+
+
+        {% if articles.has_next %}
+         <li class="page-item"><a class="page-link" href="./{{ id }}?page={{hou}}&search_Scenic_car={{search}}">{{ hou }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{articles.paginator.num_pages  }}}&search_Scenic_car={{search}}">尾页</a></li>
+
+        {% endif %}
+        <li class="page-item"><a class="page-link">共{{ articles.paginator.num_pages }}页</a></li>
+
+{% else %}
+      <li class="page-item"><a class="page-link">共{{articles.paginator.count}}条</a></li>
+      {# 判断是否有上一页，是的话现实上一页，没有的话 直接现实首页 #}
+    {% if articles.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page=1">首页</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{ qian }}">{{ qian }}</a></li>
+
+    {% endif %}
+      {# 结束 #}
+
+
+        <li class="page-item active"><a class="page-link" href="./{{ id }}?page={{articles.number}}">{{articles.number}}</a></li>
+
+
+        {% if articles.has_next %}
+         <li class="page-item"><a class="page-link" href="./{{ id }}?page={{hou}}">{{ hou }}</a></li>
+        <li class="page-item"><a class="page-link" href="./{{ id }}?page={{articles.paginator.num_pages  }}">尾页</a></li>
+
+        {% endif %}
+        <li class="page-item"><a class="page-link">共{{ articles.paginator.num_pages }}页</a></li>
+  {% endif %}
+  </ul>
+
+
+
+
+</div>
+{% endblock %}
